@@ -1,11 +1,11 @@
 name: Build macOS App
 
 on:
-  workflow_dispatch:   # tu déclenches manuellement la compilation
+  workflow_dispatch:   # permet de lancer manuellement le workflow
 
 jobs:
   build:
-    runs-on: macos-latest   # GitHub lance ton code sur un Mac
+    runs-on: macos-latest   # GitHub utilise un Mac virtuel
 
     steps:
       - name: Checkout repository
@@ -24,10 +24,12 @@ jobs:
 
       - name: Create setup.py
         run: |
-          echo "from setuptools import setup
+          cat <<EOF > setup.py
+from setuptools import setup
 APP = ['StreaMovie.py']
 OPTIONS = {'argv_emulation': True}
-setup(app=APP, options={'py2app': OPTIONS}, setup_requires=['py2app'])" > setup.py
+setup(app=APP, options={'py2app': OPTIONS}, setup_requires=['py2app'])
+EOF
 
       - name: Build app
         run: python setup.py py2app
@@ -35,5 +37,5 @@ setup(app=APP, options={'py2app': OPTIONS}, setup_requires=['py2app'])" > setup.
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Streamovie-macOs
+          name: StreaMovie-macOS
           path: dist/*.app
