@@ -1,0 +1,6 @@
+customtkinter
+qrcode
+requests
+bs4
+webbrowser
+PIL
